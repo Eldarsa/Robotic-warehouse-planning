@@ -24,7 +24,6 @@
  
     ; Bay state
     (bay-free)
-    (= (loading-time) 0)
 
     ; Mover states
     (free m1)
@@ -40,6 +39,7 @@
 
     ; Loader states
     (loader-free l1)
+    (= (loading-time) 0)
 )
 
 (:goal (and
