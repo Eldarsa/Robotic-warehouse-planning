@@ -35,3 +35,41 @@
         :effect(and (not(at-transport ?t ?from))(at-transport ?t ?to))
     )
 )
+
+;; TEMP STORAGE!!
+(:process GOTO-BAY
+    :parameters (?m1 - mover)
+    :precondition (and
+        ; activation condition
+    )
+    :effect (and
+        ; continuous effect(s)
+    )
+)
+
+
+(:action PICK-UP-CRATE
+    :parameters ()
+)
+
+(:process MOVE-TO-BAY
+    :parameters
+    :precondition
+    :effect
+)
+
+(:action PUT-DOWN-CRATE
+    :parameters ()
+    :precondition (and 
+        
+    )
+    :effect (and 
+        
+    )
+)
+
+(:process PROCESS-NAME
+    :parameters
+    :precondition
+    :effect
+)
