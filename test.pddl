@@ -1,7 +1,7 @@
 (define (problem warehouse_problem1) (:domain warehouse)
 (:objects 
     l1 - loader
-    c1 - crate
+    c1 c2 c3 - crate
     m1 m2 - mover
 )
 
@@ -10,9 +10,13 @@
     ; c1 => weight 70kg, dist 10
     ; c2 => weight 20kg, dist 20 (FRAGILE)
     ; c3 => weight 20kg, dist 20
-    (= (weight c1) 20)
-    (= (distance-crate c1) 10)
+    (= (weight c1) 70)
+    (= (weight c2) 20)
+    (= (weight c3) 20)
 
+    (= (distance-crate c1) 10)
+    (= (distance-crate c2) 20)
+    (= (distance-crate c3) 20)
     
     ; Bay state
     (bay-free)
@@ -25,10 +29,8 @@
 
     ; Crate states
     (on-ground c1)
-    (not (on-mover c1 m1))
-    (not (on-mover c1 m2))
-    (not (on-bay c1))
-    (not (on-conveyor c1))
+    (on-ground c2)
+    (on-ground c3)
 
     ; Loader states
     (loader-free l1)
@@ -37,9 +39,10 @@
 
 (:goal (and
     ;todo: put the goal condition here
-    ;(= (distance-mover m1) 10)
-    ;(not (on-ground c1))
-    (on-mover c1 m1)
+    ;(= (distance-mover m1) (distance-crate c1))
+    (not (on-ground c1))
+
+    ;(on-bay c1)
 )
 )
 

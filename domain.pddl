@@ -31,8 +31,6 @@
     (loading ?l - loader ?c - crate)
 )
 
-
-
 (:functions
     (distance-mover ?m - mover) ;distance between mover and loading bay
     (distance-crate ?c - crate)
@@ -40,17 +38,18 @@
     (loading-time)
 )
 
-(:process MOVING-TO-CRATE  ;; process to action
+(:process MOVING-TO-CRATE
     :parameters (?m - mover ?c - crate)
     :precondition (and
             (free ?m)
             (on-ground ?c)
-            (>= (- (distance-crate ?c) (distance-mover ?m)) 0)        
+            (> (- (distance-crate ?c) (distance-mover ?m)) 0)        
     )
     :effect (and
             (increase (distance-mover ?m) (* #t 10.0))
     )
 )
+
 
 (:action PICK-UP-SINGLE
     :parameters (?m - mover ?c - crate )
@@ -58,7 +57,7 @@
             (< (weight ?c) 50) 
             (free ?m) 
             (on-ground ?c) 
-            (>= (distance-mover ?m) (distance-crate ?c))
+            (= (distance-mover ?m) (distance-crate ?c))
     )
     :effect (and
             (not (on-ground ?c))
@@ -86,46 +85,48 @@
     )
 )
 
-(:action MOVING-TO-BAY-SINGLE   ;process
+(:process MOVING-TO-BAY-SINGLE   ;process
     :parameters (?m - mover ?c - crate)
     :precondition (and
         (on-mover ?c ?m)    
         (> (distance-mover ?m) 0)       
     )        
     :effect (and
-        ;;(decrease (distance-mover ?m) (* #t (/ 100 (weight-crate ?c))))
-        (decrease (distance-mover ?m) (* #t 10.0))
+        (decrease (distance-mover ?m) (* #t (/ 100.0 (weight ?c))))
+        ;(decrease (distance-mover ?m) (* #t 10.0))
     )
 )
 
-(:action MOVING-TO-BAY-DOUBLE-LIGHT ;process
+(:process MOVING-TO-BAY-DOUBLE-LIGHT ;process
     :parameters (?m1 - mover ?m2 - mover ?c - crate)
     :precondition (and
-        (< (weight-crate ?c) 50)
+        (< (weight ?c) 50)
         (on-mover ?c ?m1)
         (on-mover ?c ?m2)    
         (> (distance-mover ?m1) 0)
-        (> (distance-mover ?m2) 0)            
+        (> (distance-mover ?m2) 0)      
+        (not (= ?m1 ?m2))      
     )        
     :effect (and
-        (decrease (distance-mover ?m1) (* #t (/ 150 (weight-crate ?c))))
-        (decrease (distance-mover ?m2) (* #t (/ 150 (weight-crate ?c))))
+        (decrease (distance-mover ?m1) (* #t (/ 150.0 (weight ?c))))
+        (decrease (distance-mover ?m2) (* #t (/ 150.0 (weight ?c))))
     )
 )
 
-(:action MOVING-TO-BAY-DOUBLE-HEAVY ;process
+(:process MOVING-TO-BAY-DOUBLE-HEAVY ;process
     :parameters (?m1 - mover ?m2 - mover ?c - crate)
     :precondition (and
-        (>= (weight-crate ?c) 50)
+        (>= (weight ?c) 50)
         (on-mover ?c ?m1)
         (on-mover ?c ?m2)    
         (> (distance-mover ?m1) 0)
-        (> (distance-mover ?m2) 0)    
+        (> (distance-mover ?m2) 0)
+        (not (= ?m1 ?m2))    
             
     )        
     :effect (and
-        (decrease (distance-mover ?m1) (* #t (/ 100 (weight-crate ?c))))
-        (decrease (distance-mover ?m2) (* #t (/ 100 (weight-crate ?c))))
+        (decrease (distance-mover ?m1) (* #t (/ 100.0 (weight ?c))))
+        (decrease (distance-mover ?m2) (* #t (/ 100.0 (weight ?c))))
     )
 )
 
@@ -155,6 +156,7 @@
             (= (distance-mover ?m1) 0)
             (= (distance-mover ?m2) 0)
             (bay-free)
+            (not (= ?m1 ?m2))
     )
     :effect (and
             (not (on-mover ?c ?m1))
@@ -181,7 +183,7 @@
     )
 )
 
-(:action LOADING     ;process
+(:process LOADING     ;process
     :parameters (?l - loader)
     :precondition (and
         (not (loader-free ?l))
@@ -192,7 +194,7 @@
     
 )
 
-(:action FINISH-LOADING-CRATE ;;event
+(:event FINISH-LOADING-CRATE ;;event
     :parameters (?l - loader ?c - crate)
     :precondition(and
             ; Time loading finished
