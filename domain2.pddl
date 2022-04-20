@@ -18,10 +18,11 @@
 
 
     ; Crate states
-    (on-ground ?c - crate)
+    (onground ?c - crate)
     (in-transport ?c -crate)
     (on-bay ?c - crate)
     (on-conveyor ?c - crate)
+    (heavy ?c - crate)
 
     ; Bay states
     (bay-free)
@@ -42,8 +43,9 @@
     :parameters (?m1 - mover ?c1 - crate)
     :precondition (and
         (available ?m1) 
-        (on-ground ?c1)
-        (< (weight ?c1) 50)
+        (onground ?c1)
+        ;(< (weight ?c1) 50)
+        (not (heavy ?c1))
     )
     :effect (and 
         (targeting ?m1 ?c1)
@@ -54,11 +56,12 @@
 (:action TARGET-HEAVY-CRATE
     :parameters (?m1 - mover ?m2 - mover ?c1 - crate)
     :precondition (and 
+        (not (= ?m1 ?m2))
         (available ?m1)
         (available ?m2)
-        (not (= ?m1 ?m2))
-        (on-ground ?c1)
-        (>= (weight ?c1) 50)
+        (onground ?c1)
+        ;(>= (weight ?c1) 50.0)
+        (heavy ?c1)
     )
     :effect (and 
         (targeting ?m1 ?c1)
@@ -74,10 +77,10 @@
     :precondition (and
         (targeting ?m1 ?c1)                     ; If assigned crate
         (> (- (position ?c1) (position ?m1)) 0)   ; but not already at same pos
-        (on-ground ?c1)                          ; .. and the crate is on the ground ofc..
+        (onground ?c1)                          ; .. and the crate is on the ground ofc..
     )
     :effect (and
-        (increase (position ?m1) (* #t 1.0))
+        (increase (position ?m1) (* #t 1))
     )
 )
 
@@ -86,10 +89,10 @@
     :precondition (and
         (targeting ?m1 ?c1)
         (< (- (position ?c1) (position ?m1)) 0)
-        (on-ground ?c1) 
+        (onground ?c1) 
     )
     :effect (and
-        (decrease (position ?m1) (* #t 1.0))
+        (decrease (position ?m1) (* #t 1))
     )
 )
 
@@ -98,32 +101,31 @@
     :precondition (and 
         (targeting ?m1 ?c1)
         (= (position ?c1) (position ?m1))
-        (on-ground ?c1)
-        (< (weight ?c1) 50)
+        (onground ?c1)
+        ;(< (weight ?c1) 50.0)
     )
     :effect (and 
         (transporting ?m1 ?c1)
         (not (targeting ?m1 ?c1))
-        (not (on-ground ?c1))
+        (not (onground ?c1))
     )
 )
 
 (:action PICK-UP-DOUBLE
-    :parameters (?m1 - mover ?m2 - mover ?c1 - crate)
+    :parameters (?m1 ?m2 - mover ?c - crate)
     :precondition (and 
-        (targeting ?m1 ?c1)
-        (targeting ?m2 ?c1)
         (not (= ?m1 ?m2))
-        (= (position ?c1) (position ?m1))
-        (= (position ?c1) (position ?m2))
-        (on-ground ?c1)
-        (>= (weight ?c1) 50)
+        (targeting ?m1 ?c)
+        (targeting ?m2 ?c)
+        ;(= (position ?c1) (position ?m1))
+        ;(= (position ?c1) (position ?m2))
+        (onground ?c)
     )
     :effect (and 
-        (transporting ?m1 ?m2 ?c1)
-        (not (targeting ?m1 ?c1))
-        (not (targeting ?m2 ?c1))
-        (not (on-ground ?c1))
+        (transporting ?m1 ?m2 ?c)
+        (not (targeting ?m1 ?c))
+        (not (targeting ?m2 ?c))
+        (not (onground ?c))
     )
 )
 

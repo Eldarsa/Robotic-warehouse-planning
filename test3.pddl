@@ -10,13 +10,17 @@
     ; c1 => weight 70kg, dist 10
     ; c2 => weight 20kg, dist 20 (FRAGILE)
     ; c3 => weight 20kg, dist 20
-    (= (weight c1) 70)
-    (= (weight c2) 50)
-    (= (weight c3) 20)
+    ;(= (weight c1) 60)
+    ;(= (weight c2) 60)
+    ;(= (weight c3) 60)
 
-    (= (position c1) 10)
-    (= (position c2) 30)
-    (= (posiiton c3) 20)
+    (heavy c1)
+    (heavy c2)
+    (heavy c3)
+
+    (= (position c1) 60)
+    (= (position c2) 10)
+    (= (position c3) 20)
     
     ; Bay state
     (bay-free)
@@ -28,19 +32,25 @@
     (= (position m2) 0)
 
     ; Crate states
-    (on-ground c1)
-    (on-ground c2)
-    (on-ground c3)
+    (onground c1)
+    (onground c2)
+    (onground c3)
 
     ; Loader states
     ;(loader-free l1)
     ;(= (loading-time) 0)
 )
 
-(:goal (and
-    (targeting m1 c1)
-    (= (position c1) (position m1))
-    (on-ground c1)
+(:goal (
+    ;(not (on-ground c1))
+    ;(not (on-ground c2))
+    ;(= (position c1) (position m1))
+    ;(= (position c1) (position m2))
+   ; (targeting m1 c1)
+   ; (targeting m2 c1)
+    not (onground c1)
+    ;(= (position ?c1) (position ?m1))
+    ;(= (position ?c1) (position ?m2))
     )
 )
 
