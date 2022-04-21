@@ -108,7 +108,7 @@
         )
 )
 
-(:action pick-up-heavy
+(:action pick-up-two
     :parameters (?m1 - mover ?m2 - mover ?c - crate)
     :precondition (and 
         ;(= (- (pos ?m) (pos ?c)) 0)
@@ -118,7 +118,7 @@
         (targeted ?c)
         (targeting ?m1 ?c)
         (targeting ?m2 ?c)
-        (>= (weight ?c) 50)
+        ;(>= (weight ?c) 50)
         )
     :effect (and
         (in-transport ?c)
@@ -129,7 +129,6 @@
         (not (targeting ?m2 ?c))
         )
 )
-
 
 (:durative-action transport-to-bay-single
     :parameters (?m - mover ?c - crate)
@@ -158,6 +157,29 @@
         (at start (transporting ?m2 ?c))
         (at start (different ?m1 ?m2))
         (at start (>= (weight ?c) 50))
+    )
+    :effect (and 
+        (at end (on-bay ?c))
+        (at end (not (bay-free)))
+        (at end (not (in-transport ?c)))
+        (at end (not (transporting ?m1 ?c)))
+        (at end (not (transporting ?m2 ?c)))
+        (at end (assign (pos ?m1) 0))
+        (at end (assign (pos ?m2) 0))
+        (at end (available ?m1))
+        (at end (available ?m2))
+    )
+)
+
+(:durative-action transport-to-bay-double-light
+    :parameters (?m1 - mover ?m2 - mover ?c - crate)
+    :duration (= ?duration (/ (* (pos ?c) (weight ?c)) 150))
+    :condition (and 
+        (at start (in-transport ?c))
+        (at start (transporting ?m1 ?c))
+        (at start (transporting ?m2 ?c))
+        (at start (different ?m1 ?m2))
+        (at start (< (weight ?c) 50))
     )
     :effect (and 
         (at end (on-bay ?c))
