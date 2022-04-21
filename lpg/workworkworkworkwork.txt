@@ -1,3 +1,5 @@
+He said me haffi work, work, work, work, work, work
+
 (define (domain warehouse)
 
 (:requirements :strips :equality :fluents :durative-actions :timed-initial-literals :typing :negative-preconditions :duration-inequalities)
@@ -33,7 +35,7 @@
     (bay-free)
 
     ; Loader states
-    (loader-free ?l - loader)
+    ;(loader-free ?l - loader)
     ;(loading ?l - loader ?c - crate)
 )
 
@@ -131,60 +133,5 @@
 )
 
 
-(:durative-action transport-to-bay-single
-    :parameters (?m - mover ?c - crate)
-    :duration (= ?duration (/ (* (pos ?c) (weight ?c)) 100))
-    :condition (and 
-        (at start (in-transport ?c))
-        (at start (transporting ?m ?c))
-        (at start (< (weight ?c) 50))
-    )
-    :effect (and 
-        (at end (on-bay ?c ))
-        (at end (not (bay-free)))
-        (at end (not (in-transport ?c)))
-        (at end (not (transporting ?m ?c)))
-        (at end (assign (pos ?m) 0))
-        (at end (available ?m))
-    )
-)
-
-(:durative-action transport-to-bay-heavy
-    :parameters (?m1 - mover ?m2 - mover ?c - crate)
-    :duration (= ?duration (/ (* (pos ?c) (weight ?c)) 100))
-    :condition (and 
-        (at start (in-transport ?c))
-        (at start (transporting ?m1 ?c))
-        (at start (transporting ?m2 ?c))
-        (at start (different ?m1 ?m2))
-        (at start (>= (weight ?c) 50))
-    )
-    :effect (and 
-        (at end (on-bay ?c))
-        (at end (not (bay-free)))
-        (at end (not (in-transport ?c)))
-        (at end (not (transporting ?m1 ?c)))
-        (at end (not (transporting ?m2 ?c)))
-        (at end (assign (pos ?m1) 0))
-        (at end (assign (pos ?m2) 0))
-        (at end (available ?m1))
-        (at end (available ?m2))
-    )
-)
-
-(:durative-action transfer-to-conveyor
-    :parameters (?l - loader ?c - crate)
-    :duration (= ?duration 4)
-    :condition (and 
-        (at start (on-bay ?c))
-        (at start (loader-free ?l))
-    )
-    :effect (and 
-        (at start (not (loader-free ?l)))  
-        (at start (bay-free))
-        (at end (on-conveyor ?c))
-        (at end (loader-free ?l))
-    )
-)
 
 )

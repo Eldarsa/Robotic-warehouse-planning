@@ -3,6 +3,7 @@
     ;l1 - loader
     c1 c2 c3 - crate
     m1 m2 - mover
+    l - loader
 )
 
 (:init
@@ -67,7 +68,7 @@
     
 
     ; Loader states
-    ;(loader-free l1)
+    (loader-free l)
     ;(= (loading-time) 0)
 )
 
@@ -79,7 +80,9 @@
     ;(= (pos m1) (pos c1))
     ;(= (pos m2) (pos c1))
     ;(in-transport c2)
-    (in-transport c2)
+    (on-conveyor c1)
+    (on-conveyor c2)
+    (on-conveyor c3)
     ;)
 ))
 
