@@ -12,6 +12,7 @@
     (not (on-conveyor c3))
 
 
+
 Til neste gang:
 - får ikke til å plukke opp dobbel når det er flere lengre unna
 - fikse at move-to-crate kan gå tilbake til en pakke før også

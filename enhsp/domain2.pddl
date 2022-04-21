@@ -14,8 +14,8 @@
     (available ?m - mover)              ; Available for assignment
     (targeting ?m - mover ?c - crate)
     (transporting ?m - mover ?c - crate)   
-    (transporting ?m1 - mover ?m2 - mover ?c -crate)                 ; Moving     
-
+    ;(transporting ?m1 - mover ?m2 - mover ?c -crate)                 ; Moving
+    (different ?m1 - mover ?m2 - mover)
 
     ; Crate states
     (onground ?c - crate)
@@ -56,7 +56,8 @@
 (:action TARGET-HEAVY-CRATE
     :parameters (?m1 - mover ?m2 - mover ?c1 - crate)
     :precondition (and 
-        (not (= ?m1 ?m2))
+        ;(not (= ?m1 ?m2))
+        (different ?m1 ?m2)
         (available ?m1)
         (available ?m2)
         (onground ?c1)
@@ -80,7 +81,7 @@
         (onground ?c1)                          ; .. and the crate is on the ground ofc..
     )
     :effect (and
-        (increase (position ?m1) (* #t 1))
+        (increase (position ?m1) (* #t 10))
     )
 )
 
@@ -92,7 +93,7 @@
         (onground ?c1) 
     )
     :effect (and
-        (decrease (position ?m1) (* #t 1))
+        (decrease (position ?m1) (* #t 10))
     )
 )
 
@@ -102,6 +103,7 @@
         (targeting ?m1 ?c1)
         (= (position ?c1) (position ?m1))
         (onground ?c1)
+        (not (heavy ?c1))
         ;(< (weight ?c1) 50.0)
     )
     :effect (and 
@@ -112,19 +114,23 @@
 )
 
 (:action PICK-UP-DOUBLE
-    :parameters (?m1 ?m2 - mover ?c - crate)
+    :parameters (?m1 - mover ?m2 - mover ?c - crate)
     :precondition (and 
-        (not (= ?m1 ?m2))
+        ;(not (= ?m1 ?m2))
+        (different ?m1 ?m2)
         (targeting ?m1 ?c)
         (targeting ?m2 ?c)
-        ;(= (position ?c1) (position ?m1))
-        ;(= (position ?c1) (position ?m2))
+        (= (position ?c) (position ?m1))
+        (= (position ?c) (position ?m2))
         (onground ?c)
+        (heavy ?c)
     )
     :effect (and 
-        (transporting ?m1 ?m2 ?c)
-        (not (targeting ?m1 ?c))
-        (not (targeting ?m2 ?c))
+        ;(transporting ?m1 ?m2 ?c)
+        ;(transporting ?m1 ?c)
+        ;(transporting ?m2 ?c)
+        ;(not (targeting ?m1 ?c))
+        ;(not (targeting ?m2 ?c))
         (not (onground ?c))
     )
 )

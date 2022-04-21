@@ -14,9 +14,9 @@
     ;(= (weight c2) 60)
     ;(= (weight c3) 60)
 
-    (heavy c1)
+    (not (heavy c1))
     (heavy c2)
-    (heavy c3)
+    (not (heavy c3))
 
     (= (position c1) 60)
     (= (position c2) 10)
@@ -30,7 +30,9 @@
     (available m2)
     (= (position m1) 0)
     (= (position m2) 0)
-
+    (different m1 m2)
+    (different m2 m1)
+    ;(not (= m1 m2))
     ; Crate states
     (onground c1)
     (onground c2)
@@ -41,14 +43,15 @@
     ;(= (loading-time) 0)
 )
 
-(:goal (
-    ;(not (on-ground c1))
-    ;(not (on-ground c2))
-    ;(= (position c1) (position m1))
-    ;(= (position c1) (position m2))
-   ; (targeting m1 c1)
-   ; (targeting m2 c1)
-    not (onground c1)
+(:goal ( and
+    ;(not (= m1 m2))
+    ;(different m1 m2)
+    ;(targeting m1 c2)
+    ;(targeting m2 c2)
+    ;(= (position c2) (position m1))
+    ;(= (position c2) (position m2))
+    ;(onground c2)
+    (not (onground c2))
     ;(= (position ?c1) (position ?m1))
     ;(= (position ?c1) (position ?m2))
     )
