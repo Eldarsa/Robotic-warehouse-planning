@@ -1,0 +1,4 @@
+## Seeds
+Pick-up light: 114854831
+
+Pick-up heavy: 23926766
