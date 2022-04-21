@@ -1,1 +1,1 @@
-./lpg-td -o ./domain2.pddl -f test3.pddl -quality
+./lpg-td -o ./warehouse.pddl -f prob1.pddl -speed -seed 114854831

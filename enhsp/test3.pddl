@@ -34,9 +34,9 @@
     (different m2 m1)
     ;(not (= m1 m2))
     ; Crate states
-    (onground c1)
-    (onground c2)
-    (onground c3)
+    (waiting c1)
+    (waiting c2)
+    (waiting c3)
 
     ; Loader states
     ;(loader-free l1)
@@ -48,10 +48,10 @@
     ;(different m1 m2)
     ;(targeting m1 c2)
     ;(targeting m2 c2)
-    ;(= (position c2) (position m1))
-    ;(= (position c2) (position m2))
-    ;(onground c2)
-    (not (onground c2))
+    (= (position c2) (position m1))
+    (= (position c2) (position m2))
+    ;(waiting c2)
+    ;(in-transport c2)
     ;(= (position ?c1) (position ?m1))
     ;(= (position ?c1) (position ?m2))
     )

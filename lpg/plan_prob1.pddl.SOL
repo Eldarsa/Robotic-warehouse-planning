@@ -1,0 +1,16 @@
+
+; Version LPG-td-1.4
+; Seed 96218050
+; Command line: ./lpg++ -o ./warehouse.pddl -f prob1.pddl -speed 
+; Problem prob1.pddl
+; Time 0.01
+; Search time 0.01
+; Parsing time 0.00
+; Mutex time 0.00
+; MetricValue 3.00
+
+0.0003:   (TARGET-LIGHT M1 C2) [0.0000]
+0.0005:   (GO-TO-CRATE-FORWARD M1 C2) [2.0000]
+2.0008:   (PICK-UP-LIGHT M1 C2) [0.0000]
+
+
