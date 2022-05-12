@@ -2,8 +2,6 @@
 
 (:requirements :strips :equality :fluents :durative-actions :timed-initial-literals :typing :negative-preconditions :duration-inequalities)
 
-;(:requirements :strips :typing :durative-actions)
-
 (:types ;todo: enumerate types and their hierarchy here, e.g. car truck bus - vehicle
     mover
     crate
