@@ -1,9 +1,8 @@
 (define (problem warehouse_problem1) (:domain warehouse)
 (:objects 
-    ;l1 - loader
     c1 c2 c3 - crate
     m1 m2 - mover
-    l - loader
+    lh ll - loader
 )
 
 (:init
@@ -17,6 +16,10 @@
     (= (pos c1) 10)
     (= (pos c2) 20)
     (= (pos c3) 10)
+
+    (not-fragile c1)
+    (not-fragile c3)
+    (fragile c2)
     
     ; Bay state
     (bay-free)
@@ -28,15 +31,16 @@
     (= (pos m2) 0)
     (different m1 m2)
     (different m2 m1)
-
     ; Crate states
     (waiting c1)
     (waiting c2)
     (waiting c3)
     
+
     ; Loader states
-    (loader-free l)
-    ;(= (loading-time) 0)
+    (loader-free ll)
+    (loader-free lh)
+    (loader-heavy-free lh)
 )
 
 (:goal ( and
@@ -44,4 +48,5 @@
     (on-conveyor c2)
     (on-conveyor c3)
 ))
+
 )
